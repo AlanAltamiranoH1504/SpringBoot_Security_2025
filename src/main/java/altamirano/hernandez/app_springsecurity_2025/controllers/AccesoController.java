@@ -19,10 +19,10 @@ public class AccesoController {
         return "acceso/login";
     }
 
-    //Acceso de login
-    @PostMapping("/login")
-    public String loginPost() {
-        // Este metodo no es necesario con Spring Security, ya que lo maneja automáticamente.
-        return "redirect:/liberadas/home";
-    }
+//    //Acceso de login
+//    @PostMapping("/login")
+//    public String loginPost() {
+//        // Este metodo no es necesario con Spring Security, ya que lo maneja automáticamente.
+//        return "redirect:/liberadas/home";
+//    }
 }

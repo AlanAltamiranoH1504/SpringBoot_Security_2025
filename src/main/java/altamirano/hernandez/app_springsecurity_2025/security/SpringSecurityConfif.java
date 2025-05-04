@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -31,8 +32,8 @@ public class SpringSecurityConfif {
     //Hasheo de Password
     @Bean
     public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
+//        return NoOpPasswordEncoder.getInstance();
     }
 
     //Metodo seucurityFilterChain
@@ -48,6 +49,9 @@ public class SpringSecurityConfif {
                         .requestMatchers(HttpMethod.GET, "/acceso/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/acceso/login").permitAll()
 
+                        //Guardado de usuarios
+                        .requestMatchers(HttpMethod.POST, "/usuarios/saveUsuario").permitAll()
+
                         //Rutas que requieren proteccion por roles
                         .requestMatchers(HttpMethod.GET, "/protegido/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/restringido/**").hasRole("ADMIN")
@@ -61,12 +65,12 @@ public class SpringSecurityConfif {
 //                .formLogin(Customizer.withDefaults())
                 //Personalizacion de estilos de login
                 .formLogin(form -> form
-                        .loginPage("/acceso/login") //Ruta de login
-                        .loginProcessingUrl("/acceso/login") //peticion post para login
-                        .usernameParameter("email")
-                        .defaultSuccessUrl("/liberadas/home", true) //Ruta si pasa login
-                        .failureUrl("/acceso/login?error=true") //Ruta si falla el login
-                        .permitAll()
+                                .loginPage("/acceso/login") //Ruta de login
+//                        .loginProcessingUrl("/acceso/login") //peticion post para login
+                                .usernameParameter("email")
+                                .defaultSuccessUrl("/liberadas/home", true) //Ruta si pasa login
+                                .failureUrl("/acceso/login?error=true") //Ruta si falla el login
+                                .permitAll()
                 )
                 .logout(Customizer.withDefaults());
 //                .logout(logout -> logout
