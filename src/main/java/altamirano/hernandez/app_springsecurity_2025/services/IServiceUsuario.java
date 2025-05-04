@@ -9,4 +9,5 @@ public interface IServiceUsuario {
     public abstract Usuario findById(int id);
     public abstract void save(Usuario usuario);
     public abstract void deleteById(int id);
+    public abstract Usuario findByEmail(String email, int estado);
 }

@@ -45,4 +45,14 @@ public class ImplUsuarioService implements IServiceUsuario {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public Usuario findByEmail(String email, int estado) {
+        try{
+            Usuario usuarioFound = iRepositoryUsuario.findByEmailAndEstado(email, estado);
+            return usuarioFound;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

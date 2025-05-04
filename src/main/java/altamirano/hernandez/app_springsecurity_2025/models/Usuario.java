@@ -44,6 +44,9 @@ public class Usuario {
     public Usuario(int id){
         this.id = id;
     }
+    public Usuario(String correo){
+        this.correo = correo;
+    }
     public Usuario(String nombre, String correo, String telefono, String password, int estado) {
         this.nombre = nombre;
         this.correo = correo;
