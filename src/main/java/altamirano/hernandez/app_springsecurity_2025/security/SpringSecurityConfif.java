@@ -35,7 +35,6 @@ public class SpringSecurityConfif {
         return NoOpPasswordEncoder.getInstance();
     }
 
-
     //Metodo seucurityFilterChain
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -44,6 +43,10 @@ public class SpringSecurityConfif {
                         .requestMatchers(HttpMethod.GET, "/home").permitAll()
                         .requestMatchers(HttpMethod.GET, "/liberadas/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/acceso/registro").permitAll()
+
+                        //POST en /acceso/login
+                        .requestMatchers(HttpMethod.GET, "/acceso/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/acceso/login").permitAll()
 
                         //Rutas que requieren proteccion por roles
                         .requestMatchers(HttpMethod.GET, "/protegido/**").hasRole("ADMIN")
@@ -55,8 +58,24 @@ public class SpringSecurityConfif {
                         //Configuraciones generales
                         .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults())
+//                .formLogin(Customizer.withDefaults())
+                //Personalizacion de estilos de login
+                .formLogin(form -> form
+                        .loginPage("/acceso/login") //Ruta de login
+                        .loginProcessingUrl("/acceso/login") //peticion post para login
+                        .usernameParameter("email")
+                        .defaultSuccessUrl("/liberadas/home", true) //Ruta si pasa login
+                        .failureUrl("/acceso/login?error=true") //Ruta si falla el login
+                        .permitAll()
+                )
                 .logout(Customizer.withDefaults());
+//                .logout(logout -> logout
+//                        .logoutUrl("/acceso/logout")
+//                        .logoutSuccessUrl("/acceso/login?logout=true")
+//                        .invalidateHttpSession(true)
+//                        .deleteCookies("JSESSIONID")
+//                        .permitAll()
+//                );
         return http.build();
     }
 }
