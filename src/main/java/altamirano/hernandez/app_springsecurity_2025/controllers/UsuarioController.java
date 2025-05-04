@@ -5,6 +5,7 @@ import altamirano.hernandez.app_springsecurity_2025.services.IServiceUsuario;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,8 @@ public class UsuarioController {
 
     @Autowired
     IServiceUsuario iServiceUsuario;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @GetMapping("/prueba")
     ResponseEntity<?> prueba(){
@@ -36,6 +39,7 @@ public class UsuarioController {
             });
             return ResponseEntity.status(400).body(errores);
         } else{
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
             iServiceUsuario.save(usuario);
             json.put("msg", "Usuario creado correctamenre");
             return ResponseEntity.status(201).body(json);

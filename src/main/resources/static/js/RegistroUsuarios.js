@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const token = document.querySelector("#otkenprueba").value;
         const bodyRequest = {
             nombre: "Alan",
-            correo: "alan15ASA@gmail.com",
+            correo: "alan15Hasheado@gmail.com",
             telefono: "5565350430",
             password: "150402"
         }
